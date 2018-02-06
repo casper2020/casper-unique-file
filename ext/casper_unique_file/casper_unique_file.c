@@ -17,7 +17,6 @@ VALUE _casper_unique_filename (VALUE a_self, VALUE a_folder)
   char*       folder;							  /* base folder where we'll create the file */
   VALUE       rv;                   /* Return value to ruby */
 
-	fprintf(stderr, "Type is %d\n", TYPE(a_folder));
 	if ( NIL_P(a_folder) || TYPE(a_folder) != T_STRING ) {
 		rb_raise(rb_eArgError, "expecting a string as a_expression argument");
 	}
