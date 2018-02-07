@@ -22,22 +22,24 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 
 /**
  * @brief Creates a uniquely named file inside the specified folder. The created file is empty
  *
  * @param a_self Object handle, ignored
  * @param a_folder Folder where the file will be created
- *
+ * @param a_suffix file suffix, warning must include the .
  * @return Absolute file path   
  */
-VALUE _casper_unique_filename (VALUE a_self, VALUE a_folder)
+VALUE _casper_unique_filename (VALUE a_self, VALUE a_folder, VALUE a_suffix)
 {
   const char* template = "XXXXXX";  /* file template */
   char        fname[PATH_MAX];      /* path to be created */
   char        fpath[PATH_MAX];      /* full file path */
   int         fd;                   /* file descriptor */
   char*       folder;							  /* base folder where we'll create the file */
+  char*       suffix;               /* base folder where we'll create the file */
   VALUE       rv;                   /* Return value to ruby */
 
 	if ( NIL_P(a_folder) || TYPE(a_folder) != T_STRING ) {
@@ -45,11 +47,16 @@ VALUE _casper_unique_filename (VALUE a_self, VALUE a_folder)
 	}
 	folder = StringValueCStr(a_folder);
 
+  if ( NIL_P(a_suffix) || TYPE(a_suffix) != T_STRING ) {
+    rb_raise(rb_eArgError, "expecting a string as a_suffix argument");
+  }
+  suffix = StringValueCStr(a_suffix);
+
   /* concats argument path with file template */
-  snprintf(fname, sizeof(fname) - 1, "%s/%s", folder, template);
+  snprintf(fname, sizeof(fname) - 1, "%s/%s%s", folder, template, suffix);
 
   /* create file */
-  fd = mkstemp(fname);
+  fd = mkstemps(fname, (int) strlen(suffix));
 
   /* get file full name */
   if (fcntl(fd, F_GETPATH, fpath) != -1) {
@@ -77,5 +84,5 @@ void Init_casper_unique_file ()
   VALUE rb_mCasper  = rb_const_get(rb_cObject, rb_intern("Casper"));
   VALUE rb_mUnique  = rb_const_get(rb_mCasper, rb_intern("Unique"));
   VALUE rb_mFile    = rb_const_get(rb_mUnique, rb_intern("File"));
-  rb_define_module_function(rb_mFile, "create", _casper_unique_filename, 1);
+  rb_define_module_function(rb_mFile, "create", _casper_unique_filename, 2);
 }

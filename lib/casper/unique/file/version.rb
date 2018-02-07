@@ -19,7 +19,7 @@
 module Casper
   module Unique
     module File
-      VERSION = "0.1.2"
+      VERSION = "0.1.3"
     end
   end
 end
