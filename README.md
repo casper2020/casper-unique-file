@@ -21,13 +21,11 @@ Or install it yourself as:
 
 ## Usage
 
-Just call Casper::Unique::File::create passing the name of the folder where the file should be created. Returns the unique file name. 
-On failure returns nil.
-
+Just call Casper::Unique::File::create passing the name of the folder where the file should be created and the extension if needed. Returns the unique file name. On failure returns nil.
 ```sh
 [ casper-unique-file ⇣⇡ master ᚶ ] $ ./bin/console
-2.1.5 :001 > Casper::Unique::File::create('/tmp')
- => "/private/tmp/ZtkM4u"
+2.1.5 :001 > Casper::Unique::File::create('/tmp', '.pdf')
+ => "/tmp/ZtkM4u.pdf"
 2.1.5 :002 >
 ```
 
