@@ -27,8 +27,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Eurico Inocencio"]
   spec.email         = ["eurico.inocencio@gmail.com"]
 
-  spec.summary       = %q{Helper to make safe unique filename for ruby}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{Helper to make safe unique filenames in ruby}
+  spec.homepage      = "https://github.com/casper2020/casper-unique-file"
 
   # this tells RubyGems to build an extension upon install
   spec.extensions = %w[ext/casper_unique_file/extconf.rb]
