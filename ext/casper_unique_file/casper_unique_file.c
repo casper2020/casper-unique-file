@@ -1,4 +1,21 @@
-
+/*
+ * Copyright (c) 2018 Cloudware S.A. All rights reserved.
+ *
+ * This file is part of casper-unique-file.
+ *
+ * casper-unique-file is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * casper-unique-file  is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with casper-unique-file.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include <ruby.h>
 #include <ruby/intern.h>
 #include <ruby/encoding.h>
@@ -6,8 +23,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-// http://clalance.blogspot.pt/2011/01/writing-ruby-extensions-in-c-part-10.html
-
+/**
+ * @brief Creates a uniquely named file inside the specified folder. The created file is empty
+ *
+ * @param a_self Object handle, ignored
+ * @param a_folder Folder where the file will be created
+ *
+ * @return Absolute file path   
+ */
 VALUE _casper_unique_filename (VALUE a_self, VALUE a_folder)
 {
   const char* template = "XXXXXX";  /* file template */
@@ -18,7 +41,7 @@ VALUE _casper_unique_filename (VALUE a_self, VALUE a_folder)
   VALUE       rv;                   /* Return value to ruby */
 
 	if ( NIL_P(a_folder) || TYPE(a_folder) != T_STRING ) {
-		rb_raise(rb_eArgError, "expecting a string as a_expression argument");
+		rb_raise(rb_eArgError, "expecting a string as a_folder argument");
 	}
 	folder = StringValueCStr(a_folder);
 
