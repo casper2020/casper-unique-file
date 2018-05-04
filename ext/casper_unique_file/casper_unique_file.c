@@ -24,13 +24,18 @@
 #include <fcntl.h>
 #include <string.h>
 
+#ifndef F_GETPATH
+  //  Get the path of the file descriptor Fildes.  The argument must be a buffer of size MAXPATHLEN or greater.
+  #define F_GETPATH PATH_MAX
+#endif
+
 /**
  * @brief Creates a uniquely named file inside the specified folder. The created file is empty
  *
  * @param a_self Object handle, ignored
  * @param a_folder Folder where the file will be created
  * @param a_suffix file suffix, warning must include the .
- * @return Absolute file path   
+ * @return Absolute file path
  */
 VALUE _casper_unique_filename (VALUE a_self, VALUE a_folder, VALUE a_suffix)
 {
@@ -64,7 +69,7 @@ VALUE _casper_unique_filename (VALUE a_self, VALUE a_folder, VALUE a_suffix)
     rv = rb_enc_str_new_cstr(fpath, rb_enc_find("UTF-8"));
     /* exit with success */
     return rv;
-  
+
   } else {
     close(fd);
     /* exit with error */
